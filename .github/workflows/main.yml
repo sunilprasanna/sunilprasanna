@@ -21,9 +21,9 @@ jobs:
           node-version: 14
 
       - name: Update version code
-        uses: Adzz/jest_test_action@v1.0.0
+        uses: borales/actions-yarn@v4
         with:
-          command: all-aboard
+          cmd: all-aboard
 
   create-pull-request:
     permissions: write-all
