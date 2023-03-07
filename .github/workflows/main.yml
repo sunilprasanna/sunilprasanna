@@ -19,11 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14.x
-
-      - name: Update version code
-        uses: CultureHQ/actions-yarn@master
-        with:
-          args: all-aboard
+      - run: yarn all-aboard
 
   create-pull-request:
     permissions: write-all
