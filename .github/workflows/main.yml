@@ -21,9 +21,9 @@ jobs:
           node-version: 14.x
 
       - name: Update version code
-        uses: borales/actions-yarn@v4
+        uses: CultureHQ/actions-yarn@master
         with:
-          cmd: all-aboard
+          args: all-aboard
 
   create-pull-request:
     permissions: write-all
