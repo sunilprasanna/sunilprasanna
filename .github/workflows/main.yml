@@ -15,10 +15,10 @@ jobs:
           fetch-depth: 0
           ref: development
 
-      - name: Use Node.js 14
-        uses: actions/setup-node@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 14.x
 
       - name: Update version code
         uses: borales/actions-yarn@v4
