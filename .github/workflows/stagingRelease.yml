@@ -34,3 +34,4 @@ jobs:
           github-token: ${{ secrets.MERGE_TOKEN }}
           base: release
           head: development
+          title: ${{github.event.release.name}}
