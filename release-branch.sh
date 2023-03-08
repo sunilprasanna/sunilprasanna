@@ -9,7 +9,7 @@ export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').
 echo "Version: ${RELEASE_VERSION}"
 
 # Create new branch and check it out
-git checkout -b development
+git checkout development
 
 # Update version.txt
 echo ${RELEASE_VERSION} > version.txt
