@@ -1,6 +1,7 @@
 name: Update Version on Release
 
-on: [push]
+on:
+  release: prereleased
 
 permissions: write-all
 
