@@ -1,0 +1,33 @@
+name: Update Version on Release
+
+on:
+  release:
+    types:
+      - released
+
+permissions: write-all
+
+jobs:
+  update_version:
+    name: "[chore] Merge pull request from release to production"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: development
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Run auto-merge-action
+        id: run-auto-merge-action
+        uses: yyoshiki41/auto-merge-action@v1
+        with:
+          github-token: ${{ secrets.MERGE_TOKEN }}
+          base: master
+          head: release
