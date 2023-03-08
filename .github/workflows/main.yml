@@ -22,7 +22,7 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
-        run: ls
+        run: yarn all-aboard
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
