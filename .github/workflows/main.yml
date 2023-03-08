@@ -21,11 +21,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14.x
-      - run: yarn
-      - run: yarn all-aboard
+
+      - name: Run yarn all-aboard
+        working-directory: sunilprasanna
+        run: yarn all-aboard
 
   create-pull-request:
-    runs-on: ubuntu-latest
     name: "[chore] Merge pull request from staging to develop"
     runs-on: ubuntu-latest
     timeout-minutes: 8
