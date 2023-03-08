@@ -9,7 +9,9 @@ permissions: write-all
 
 jobs:
   update_version:
+    name: "[chore] Merge pull request from development to release"
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -23,24 +25,12 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
-        working-directory: sunilprasanna
         run: yarn all-aboard
-
-  create-pull-request:
-    name: "[chore] Merge pull request from staging to develop"
-    runs-on: ubuntu-latest
-    timeout-minutes: 8
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: development
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
         uses: yyoshiki41/auto-merge-action@v1
         with:
           github-token: ${{ secrets.MERGE_TOKEN }}
-          base: development
-          head: release
+          base: release
+          head: development
