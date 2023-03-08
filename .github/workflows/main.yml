@@ -25,7 +25,8 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
-        run: ./ && yarn all-aboard
+        uses: ./
+        run: yarn all-aboard
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
