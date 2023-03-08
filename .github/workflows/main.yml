@@ -1,6 +1,9 @@
 name: Update Version on Release
 
-on: [push]
+on:
+  release:
+    types:
+      - prereleased
 
 permissions: write-all
 
@@ -22,7 +25,7 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
-        run: ls
+        run: yarn add semver && yarn all-aboard
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
