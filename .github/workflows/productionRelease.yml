@@ -1,4 +1,4 @@
-name: Update Version on Release
+name: Update Version on Production
 
 on:
   release:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: development
+          ref: release
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v3
@@ -31,4 +31,10 @@ jobs:
           github-token: ${{ secrets.MERGE_TOKEN }}
           base: master
           head: release
-          title: ${{github.event.release.name}}
+
+      - name: Slack Production Notification
+        uses: bryannice/gitactions-slack-notification@2.0.0
+        env:
+          SLACK_INCOMING_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
+          SLACK_MESSAGE: "The production release has been merged for the backend"
+          SLACK_TITLE: "Production Release"
