@@ -1,0 +1,40 @@
+name: Update Version on Production
+
+on:
+  release:
+    types:
+      - released
+
+permissions: write-all
+
+jobs:
+  update_version:
+    name: "[chore] Merge pull request from release to production"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: release
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Run auto-merge-action
+        id: run-auto-merge-action
+        uses: yyoshiki41/auto-merge-action@v1
+        with:
+          github-token: ${{ secrets.MERGE_TOKEN }}
+          base: master
+          head: release
+
+      - name: Slack Production Notification
+        uses: bryannice/gitactions-slack-notification@2.0.0
+        env:
+          SLACK_INCOMING_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
+          SLACK_MESSAGE: "The production release has been merged for the backend"
+          SLACK_TITLE: "Production Release"

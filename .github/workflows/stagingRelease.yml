@@ -34,3 +34,11 @@ jobs:
           github-token: ${{ secrets.MERGE_TOKEN }}
           base: release
           head: development
+          title: ${{github.event.release.name}}
+
+      - name: Slack Staging Notification
+        uses: bryannice/gitactions-slack-notification@2.0.0
+        env:
+          SLACK_INCOMING_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
+          SLACK_MESSAGE: "The staging release has been merged for the backend"
+          SLACK_TITLE: "Staging Release"
