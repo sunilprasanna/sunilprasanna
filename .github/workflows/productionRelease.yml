@@ -31,6 +31,7 @@ jobs:
           github-token: ${{ secrets.MERGE_TOKEN }}
           base: master
           head: release
+          title: ${{github.event.release.name}}
 
       - name: Slack Production Notification
         uses: bryannice/gitactions-slack-notification@2.0.0
