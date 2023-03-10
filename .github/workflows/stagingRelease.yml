@@ -31,7 +31,7 @@ jobs:
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
-        uses: yyoshiki41/auto-merge-action@2d524e6
+        uses: yyoshiki41/auto-merge-action@2d524e61461c62cdd8d41479bf43abfec4765c2e
         with:
           github-token: ${{ secrets.MERGE_TOKEN }}
           base: release
