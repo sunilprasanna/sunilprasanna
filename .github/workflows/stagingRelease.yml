@@ -22,7 +22,7 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
-        run: git remote add origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git && yarn add semver && yarn all-aboard
+        run: git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git && yarn add semver && yarn all-aboard
 
       - name: Run auto-merge-action
         id: run-auto-merge-action
