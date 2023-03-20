@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: development
+
       - name: Run auto-merge-action
         id: run-auto-merge-action
         uses: yyoshiki41/auto-merge-action@v1
