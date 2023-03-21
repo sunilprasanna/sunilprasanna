@@ -18,15 +18,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: release
-
-      - name: Check pull requests
-        shell: bash
-        id: check-pr
-        env:
-          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
-        run: |
-          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"release\") | select(.base.ref == \"master\") | .number")
-          echo "num=$num" >> $GITHUB_OUTPUT
       - name: Create a pull request
         shell: bash
         if: ${{ steps.check-pr.outputs.num == '' }}
