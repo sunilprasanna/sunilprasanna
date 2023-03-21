@@ -9,6 +9,7 @@ jobs:
     name: "[chore] Merge pull request from development to release"
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    using: composite
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -29,41 +30,36 @@ jobs:
           yarn add semver
           yarn all-aboard
 
-      - name: Run auto-merge-action
-        id: run-auto-merge-action
-        run:
-          using: "composite"
-          steps:
-            - name: Check pull requests
-              shell: bash
-              id: check-pr
-              env:
-                GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
-              run: |
-                num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"release\") | .number")
-                echo "num=$num" >> $GITHUB_OUTPUT
-            - name: Create a pull request
-              shell: bash
-              if: ${{ steps.check-pr.outputs.num == '' }}
-              env:
-                GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
-              run: |
-                git fetch origin development release
-                code=$(git diff --exit-code --quiet origin/development...origin/release || echo $?)
-                if [ $code -ne 0 ]; then
-                  gh pr create -H release -B development -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
-                fi
-            - name: Merge a pull request if exist
-              shell: bash
-              id: merge-pr
-              env:
-                GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
-              run: |
-                num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"release\") | select(.base.ref == \"development\") | .number")
-                if [ -n "$num" ]; then
-                  gh pr merge ${num} --merge --admin
-                  echo "num=$num" >> $GITHUB_OUTPUT
-                fi
+      - name: Check pull requests
+        shell: bash
+        id: check-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"release\") | .number")
+          echo "num=$num" >> $GITHUB_OUTPUT
+      - name: Create a pull request
+        shell: bash
+        if: ${{ steps.check-pr.outputs.num == '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          git fetch origin development release
+          code=$(git diff --exit-code --quiet origin/development...origin/release || echo $?)
+          if [ $code -ne 0 ]; then
+            gh pr create -H release -B development -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
+          fi
+      - name: Merge a pull request if exist
+        shell: bash
+        id: merge-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"release\") | select(.base.ref == \"development\") | .number")
+          if [ -n "$num" ]; then
+            gh pr merge ${num} --merge --admin
+            echo "num=$num" >> $GITHUB_OUTPUT
+          fi
 
       - name: Slack Staging Notification
         uses: bryannice/gitactions-slack-notification@2.0.0
