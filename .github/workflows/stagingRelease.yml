@@ -43,8 +43,6 @@ jobs:
             gh pr merge ${num} --merge --admin
             echo "num=$num" >> $GITHUB_OUTPUT
           fi
-          git checkout development
-          git branch -d ${RELEASE_VERSION}
 
       - name: Create a pull request
         shell: bash
