@@ -17,16 +17,38 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: development
+          ref: release
 
-      - name: Run auto-merge-action
-        id: run-auto-merge-action
-        uses: yyoshiki41/auto-merge-action@v1
-        with:
-          github-token: ${{ secrets.MERGE_TOKEN }}
-          base: master
-          head: release
-          title: ${{github.event.release.name}}
+      - name: Check pull requests
+        shell: bash
+        id: check-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"release\") | select(.base.ref == \"master\") | .number")
+          echo "num=$num" >> $GITHUB_OUTPUT
+      - name: Create a pull request
+        shell: bash
+        if: ${{ steps.check-pr.outputs.num == '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          git fetch origin release master
+          code=$(git diff --exit-code --quiet origin/release...origin/master || echo $?)
+          if [ $code -ne 0 ]; then
+            gh pr create -H master -B release -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to master"
+          fi
+      - name: Merge a pull request if exist
+        shell: bash
+        id: merge-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
+        run: |
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"master\") | select(.base.ref == \"release\") | .number")
+          if [ -n "$num" ]; then
+            gh pr merge ${num} --merge --admin
+            echo "num=$num" >> $GITHUB_OUTPUT
+          fi
 
       - name: Slack Production Notification
         uses: bryannice/gitactions-slack-notification@2.0.0
