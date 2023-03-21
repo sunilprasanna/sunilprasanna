@@ -9,7 +9,6 @@ jobs:
     name: "[chore] Merge pull request from development to release"
     runs-on: ubuntu-latest
     timeout-minutes: 8
-    using: composite
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
