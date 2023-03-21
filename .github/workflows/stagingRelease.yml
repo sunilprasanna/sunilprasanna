@@ -1,6 +1,9 @@
 name: Update Version on Release
 
-on: [push]
+on:
+  release:
+    types:
+      - prereleased
 
 permissions: write-all
 
@@ -43,15 +46,11 @@ jobs:
 
       - name: Create a pull request
         shell: bash
-        if: ${{ steps.check-pr.outputs.num == '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
         run: |
           git fetch origin development release
-          code=$(git diff --exit-code --quiet origin/development...origin/release || echo $?)
-          if [ $code -ne 0 ]; then
-            gh pr create -H release -B development -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
-          fi
+          gh pr create -H release -B development -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
       - name: Merge a pull request if exist
         shell: bash
         id: merge-pr
