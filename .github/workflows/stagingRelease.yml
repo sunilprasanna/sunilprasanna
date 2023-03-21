@@ -30,7 +30,7 @@ jobs:
           git config --global user.name "Sunil Babu"
           git remote set-url origin https://sunilprasanna:${{ secrets.GH_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
           yarn add semver
-          git branch -D ${{github.event.release.name}} &>/dev/null
+          git branch --delete ${{github.event.release.name}} &>/dev/null
           git push origin --delete ${{github.event.release.name}} &>/dev/null
           git checkout -b ${{github.event.release.name}}
           export VERSION=$(cat version.txt)
