@@ -44,7 +44,7 @@ jobs:
           gh pr create -H ${RELEASE_VERSION} -B development -t "${RELEASE_VERSION}" -b "${RELEASE_VERSION} -> development"
           num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"${RELEASE_VERSION}\") | .number")
           gh pr merge ${num} --merge --admin
-          Start-sleep -s 5
+          sleep 5
           git fetch origin development release
           gh pr create -H release -B development -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
           num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"release\") | select(.base.ref == \"development\") | .number")
