@@ -8,6 +8,8 @@ export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').
 
 echo "Version: ${RELEASE_VERSION}"
 
+git remote set-url origin https://sunilprasanna:$MERGE_TOKEN@github.com/sunilprasanna/sunilprasanna.git 
+
 # Create new branch and check it out
 git checkout development
 
