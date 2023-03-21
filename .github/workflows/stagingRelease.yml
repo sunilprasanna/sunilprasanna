@@ -1,9 +1,6 @@
 name: Update Version on Release
 
-on:
-  release:
-    types:
-      - prereleased
+on: [push]
 
 permissions: write-all
 
