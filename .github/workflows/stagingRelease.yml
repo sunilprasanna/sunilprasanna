@@ -33,13 +33,14 @@ jobs:
           git checkout -b ${{github.event.release.name}}
           export VERSION=$(cat version.txt)
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
+          echo ${RELEASE_VERSION} > version.txt
           echo "Version: ${RELEASE_VERSION}"
           git add version.txt
           git commit -m "chore: update to version ${RELEASE_VERSION}"
           git push -u origin ${{github.event.release.name}}
           echo -e "\n\n\n🚂 Ready for departure 🚂 "
           gh pr create -H ${{github.event.release.name}} -B development -t "${RELEASE_VERSION}"
-          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"${{github.event.release.name}}\") | .number")
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"{{github.event.release.name}}\") | .number")
           if [ -n "$num" ]; then
             gh pr merge ${num} --merge --admin
             echo "num=$num" >> $GITHUB_OUTPUT
