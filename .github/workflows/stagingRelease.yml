@@ -1,6 +1,9 @@
 name: Update Version on Release
 
-on: [push]
+on:
+  release:
+    types:
+      - prereleased
 
 permissions: write-all
 
@@ -29,14 +32,6 @@ jobs:
           yarn add semver
           yarn all-aboard
 
-      - name: Check pull requests
-        shell: bash
-        id: check-pr
-        env:
-          GITHUB_TOKEN: ${{ secrets.MERGE_TOKEN }}
-        run: |
-          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"release\") | .number")
-          echo "num=$num" >> $GITHUB_OUTPUT
       - name: Create a pull request
         shell: bash
         if: ${{ steps.check-pr.outputs.num == '' }}
