@@ -17,7 +17,7 @@ echo ${RELEASE_VERSION} > version.txt
 # Stage only version file, commit and push to remote
 git add version.txt
 git commit -m "chore: update to version ${RELEASE_VERSION}"
-git push -u origin development
+git push -u origin development --admin
 echo -e "\n\n\n🚂 Ready for departure 🚂 "
 
 exit 0
