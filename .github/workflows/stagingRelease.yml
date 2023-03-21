@@ -26,6 +26,7 @@ jobs:
           git config --global user.email "spbsparky@gmail.com"
           git config --global user.name "Sunil Babu"
           git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
+          export MERGE-TOKEN ${{ secrets.MERGE_TOKEN }}
           yarn add semver
           yarn all-aboard
 
