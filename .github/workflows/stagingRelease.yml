@@ -22,10 +22,12 @@ jobs:
           node-version: 14.x
 
       - name: Run yarn all-aboard
+        env:
+          GH_TOKEN: ${{ secrets.MERGE_TOKEN }}
         run: |
           git config --global user.email "spbsparky@gmail.com"
           git config --global user.name "Sunil Babu"
-          git remote set-url origin https://sunilprasanna:${{ secrets.GH_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
+          git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
           yarn add semver
           export VERSION=$(cat version.txt)
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
