@@ -15,6 +15,7 @@ git checkout development
 echo ${RELEASE_VERSION} > version.txt
 
 # Stage only version file, commit and push to remote
+git remote set-url origin https://sunilprasanna:$MERGE_TOKEN@github.com/sunilprasanna/sunilprasanna.git 
 git add version.txt
 git commit -m "chore: update to version ${RELEASE_VERSION}"
 git push -u origin development -f
