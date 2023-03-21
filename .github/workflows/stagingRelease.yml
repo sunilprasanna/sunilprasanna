@@ -28,7 +28,7 @@ jobs:
           git remote set-url origin https://sunilprasanna:${{ secrets.GH_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
           yarn add semver
           export VERSION=$(cat version.txt)
-          git checkout -b "${{github.event.release.name}}"
+          git checkout -b ${{github.event.release.name}}
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
           echo "Version: ${RELEASE_VERSION}"
           git add version.txt
