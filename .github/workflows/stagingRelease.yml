@@ -24,13 +24,11 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Run yarn all-aboard
+      - name: Update version
         run: |
           git config --global user.email "spbsparky@gmail.com"
           git config --global user.name "Sunil Babu"
-          git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
-          yarn add semver
-          yarn all-aboard
+          git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git
 
       - name: Create a pull request
         shell: bash
