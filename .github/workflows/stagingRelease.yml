@@ -34,6 +34,7 @@ jobs:
           yarn add semver
           export VERSION=$(cat version.txt)
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
+          git checkout development
           git checkout -b ${RELEASE_VERSION}
           echo ${RELEASE_VERSION} > version.txt
           git add version.txt
