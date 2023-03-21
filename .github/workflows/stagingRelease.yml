@@ -36,10 +36,10 @@ jobs:
           echo "Version: ${RELEASE_VERSION}"
           git add version.txt
           git commit -m "chore: update to version ${RELEASE_VERSION}"
-          git push -u origin ${VERSION}
+          git push -u origin ${{github.event.release.name}}
           echo -e "\n\n\n🚂 Ready for departure 🚂 "
-          gh pr create -H ${VERSION} -B development -t "${VERSION}"
-          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"{VERSION}\") | .number")
+          gh pr create -H ${{github.event.release.name}} -B development -t "${RELEASE_VERSION}"
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"${{github.event.release.name}}\") | .number")
           if [ -n "$num" ]; then
             gh pr merge ${num} --merge --admin
             echo "num=$num" >> $GITHUB_OUTPUT
