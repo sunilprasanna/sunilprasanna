@@ -27,9 +27,9 @@ jobs:
           git config --global user.name "Sunil Babu"
           git remote set-url origin https://sunilprasanna:${{ secrets.GH_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
           yarn add semver
-          git checkout -b ${VERSION}
           export VERSION=$(cat version.txt)
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
+          git checkout -b ${VERSION}
           echo "Version: ${RELEASE_VERSION}"
           git add version.txt
           git commit -m "chore: update to version ${RELEASE_VERSION}"
