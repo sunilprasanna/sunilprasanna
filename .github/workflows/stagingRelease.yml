@@ -33,7 +33,6 @@ jobs:
           export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
           git checkout -b ${RELEASE_VERSION}
           echo ${RELEASE_VERSION} > version.txt
-          echo "Version: ${RELEASE_VERSION}"
           git add version.txt
           git commit -m "chore: update to version ${RELEASE_VERSION}"
           git push --set-upstream origin ${RELEASE_VERSION}
