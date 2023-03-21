@@ -37,7 +37,7 @@ jobs:
           git commit -m "chore: update to version ${RELEASE_VERSION}"
           git push --set-upstream origin ${RELEASE_VERSION}
           echo -e "\n\n\n🚂 Ready for departure 🚂 "
-          gh pr create -H ${RELEASE_VERSION} -B development -t "${RELEASE_VERSION}"
+          gh pr create -H ${RELEASE_VERSION} -B development -t "${RELEASE_VERSION}" -b "${RELEASE_VERSION} -> development"
           num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"{RELEASE_VERSION}\") | .number")
           if [ -n "$num" ]; then
             gh pr merge ${num} --merge --admin
