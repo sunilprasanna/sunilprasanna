@@ -24,25 +24,27 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Run yarn all-aboard
+      - name: Update version and merge to release
         env:
           GH_TOKEN: ${{ secrets.MERGE_TOKEN }}
         run: |
-          git config --global user.email "spbsparky@gmail.com"
-          git config --global user.name "Sunil Babu"
-          git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
-          yarn add semver
-          export VERSION=$(cat version.txt)
-          export RELEASE_VERSION=$(node -pe "require('semver').inc('${VERSION}', 'patch').trim()")
+          git config --global user.email "engineering@call-em-all.com"
+          git config --global user.name "cea-bot"
+          git remote set-url origin https://cea-bot:${{ secrets.MERGE_TOKEN }}@github.com/callemall/cea-desktop.git 
           git checkout development
-          git checkout -b ${RELEASE_VERSION}
-          echo ${RELEASE_VERSION} > version.txt
-          git add version.txt
+          npm --no-git-tag-version version minor
+          cd client && npm --no-git-tag-version version minor
+          cd ..
+          cd server && npm --no-git-tag-version version minor
+          export RELEASE_VERSION=$(node -pe "require('./package.json').version")
+          export BRANCH_NAME=Version-${RELEASE_VERSION}
+          git checkout -b ${BRANCH_NAME}
+          git add package.json client/package.json server/package.json
           git commit -m "chore: update to version ${RELEASE_VERSION}"
-          git push --set-upstream origin ${RELEASE_VERSION}
+          git push -u origin ${BRANCH_NAME}
           echo -e "\n\n\n🚂 Ready for departure 🚂 "
-          gh pr create -H ${RELEASE_VERSION} -B development -t "${RELEASE_VERSION}" -b "${RELEASE_VERSION} -> development"
-          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"${RELEASE_VERSION}\") | .number")
+          gh pr create -H ${BRANCH_NAME} -B development -t "${BRANCH_NAME}" -b "${RELEASE_VERSION} -> development"
+          num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"${BRANCH_NAME}\") | .number")
           gh pr merge ${num} --merge --admin
           git fetch origin development release
           gh pr create -H development -B release -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
@@ -53,5 +55,5 @@ jobs:
         uses: bryannice/gitactions-slack-notification@2.0.0
         env:
           SLACK_INCOMING_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
-          SLACK_MESSAGE: "The staging release has been merged for the backend"
+          SLACK_MESSAGE: "The staging release has been merged for cea-desktop"
           SLACK_TITLE: "Staging Release"
