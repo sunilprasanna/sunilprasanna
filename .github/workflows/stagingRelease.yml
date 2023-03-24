@@ -33,13 +33,10 @@ jobs:
           git remote set-url origin https://cea-bot:${{ secrets.MERGE_TOKEN }}@github.com/callemall/cea-desktop.git 
           git checkout development
           npm --no-git-tag-version version minor
-          cd client && npm --no-git-tag-version version minor
-          cd ..
-          cd server && npm --no-git-tag-version version minor
           export RELEASE_VERSION=$(node -pe "require('./package.json').version")
           export BRANCH_NAME=Version-${RELEASE_VERSION}
           git checkout -b ${BRANCH_NAME}
-          git add package.json client/package.json server/package.json
+          git add package.json
           git commit -m "chore: update to version ${RELEASE_VERSION}"
           git push -u origin ${BRANCH_NAME}
           echo -e "\n\n\n🚂 Ready for departure 🚂 "
