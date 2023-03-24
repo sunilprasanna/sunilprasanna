@@ -28,9 +28,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MERGE_TOKEN }}
         run: |
-          git config --global user.email "engineering@call-em-all.com"
-          git config --global user.name "cea-bot"
-          git remote set-url origin https://cea-bot:${{ secrets.MERGE_TOKEN }}@github.com/callemall/cea-desktop.git 
+          git config --global user.email "spbsparky@gmail.com"
+          git config --global user.name "sunilprasanna"
+          git remote set-url origin https://sunilprasanna:${{ secrets.MERGE_TOKEN }}@github.com/sunilprasanna/sunilprasanna.git 
           git checkout development
           npm --no-git-tag-version version minor
           export RELEASE_VERSION=$(node -pe "require('./package.json').version")
