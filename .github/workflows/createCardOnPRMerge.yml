@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - run: npm install node-fetch
+      - run: npm install
 
       - name: Add Trello Card for PR
         uses: ./.github/workflows/addTrelloCardsForReleaseAction
