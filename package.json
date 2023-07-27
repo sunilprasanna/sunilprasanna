@@ -1,6 +1,7 @@
 {
   "name": "sunilprasanna",
   "version": "0.2.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
