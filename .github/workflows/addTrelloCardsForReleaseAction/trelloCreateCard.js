@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-const core = require("@actions/core");
-const github = require("@actions/github");
+import * as core from "@actions/core";
+import * as github from "@actions/github";
 
 try {
   const newCardName = core.getInput("name-of-card");
