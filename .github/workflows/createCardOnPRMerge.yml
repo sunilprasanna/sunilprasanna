@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'development'
     runs-on: ubuntu-latest
     steps:
-      - uses: addTrelloCardsForReleaseAction/action.yml
+      - uses: /addTrelloCardsForReleaseAction/action.yml
         with:
           name-of-card: ${{ github.event.pull_request.title }}
           trello-api-key: ${{ secrets.TRELLO_API_KEY }}
