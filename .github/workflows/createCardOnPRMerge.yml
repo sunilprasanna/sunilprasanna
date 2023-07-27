@@ -19,7 +19,7 @@ jobs:
           ref: master
 
       - name: Add Trello Card for PR
-        uses: ./.github/workflows/addTrelloCardsForReleaseAction/action.yml
+        uses: ./.github/workflows/addTrelloCardsForReleaseAction
         with:
           name-of-card: ${{ github.event.pull_request.title }}
           trello-api-key: ${{ secrets.TRELLO_API_KEY }}
