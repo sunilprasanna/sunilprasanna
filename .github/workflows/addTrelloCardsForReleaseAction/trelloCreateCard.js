@@ -1,10 +1,9 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 const core = require("@actions/core");
 const github = require("@actions/github");
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const newCardName = core.getInput("who-to-greet");
+  const newCardName = core.getInput("name-of-card");
   console.log(`New Card Name: ${newCardName}`);
   const trelloKey = core.getInput("trello-api-key");
   const trelloToken = core.getInput("trello-api-token");
