@@ -1,0 +1,17 @@
+name: "Add Trello Cards when PRs are merged"
+description: "Add trello cards when PRs are merged"
+
+inputs:
+  name-of-card: # id of input
+    description: "What the card name is"
+    required: true
+  trello-api-key:
+    description: "Trello API Key"
+    required: true
+  trello-api-token:
+    description: "Trello API Token"
+    required: true
+
+runs:
+  using: "node16"
+  main: "trelloCreateCard.js"
