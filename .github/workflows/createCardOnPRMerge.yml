@@ -18,6 +18,12 @@ jobs:
           fetch-depth: 0
           ref: master
 
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: npm install node-fetch
+
       - name: Add Trello Card for PR
         uses: ./.github/workflows/addTrelloCardsForReleaseAction
         with:
