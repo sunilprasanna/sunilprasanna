@@ -12,7 +12,14 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'development'
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/addTrelloCardsForReleaseAction/action.yml
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: development
+
+      - name: Add Trello Card for PR
+        uses: ./.github/workflows/addTrelloCardsForReleaseAction/action.yml
         with:
           name-of-card: ${{ github.event.pull_request.title }}
           trello-api-key: ${{ secrets.TRELLO_API_KEY }}
