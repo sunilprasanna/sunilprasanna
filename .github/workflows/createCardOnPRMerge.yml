@@ -12,5 +12,8 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo The PR was merged
+      - uses: ./.github/workflows/addTrelloCardsForReleaseAction
+        with:
+          name-of-card: ${{ github.event.pull_request.title }}
+          trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+          trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
