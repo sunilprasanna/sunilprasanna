@@ -7,7 +7,7 @@ try {
   console.log(`New Card Name: ${newCardName}`);
   const trelloKey = core.getInput("trello-api-key");
   const trelloToken = core.getInput("trello-api-token");
-  const trelloAPIUrl = `https://api.trello.com/1/cards?idList=64badf32182ac7d928d9304f&key=${trelloKey}&token={trelloToken}`;
+  const trelloAPIUrl = `https://api.trello.com/1/cards?idList=64badf32182ac7d928d9304f&key=${trelloKey}&token=${trelloToken}`;
   console.log(`Trello API URL: ${trelloAPIUrl}`);
   fetch(trelloAPIUrl, {
     method: "POST",
