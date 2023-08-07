@@ -1,0 +1,39 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Extract version from package.json
+        id: extract_version
+        run: |
+          npm --no-git-tag-version version minor
+          echo "version=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
+      - name: Create Release
+        id: create_release
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const version = process.env.version;
+            const release = await github.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: version,
+              target_commitish: context.sha,
+              draft: false,
+              prerelease: false,
+              generate_release_notes: true
+            });
