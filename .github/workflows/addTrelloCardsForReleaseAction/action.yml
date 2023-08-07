@@ -5,6 +5,12 @@ inputs:
   name-of-card: # id of input
     description: "What the card name is"
     required: true
+  description-of-card:
+    description: "What the card description is"
+    required: true
+  pr-link:
+    description: "Link to the PR"
+    required: true
   trello-api-key:
     description: "Trello API Key"
     required: true
