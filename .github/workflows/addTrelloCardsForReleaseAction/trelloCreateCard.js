@@ -11,8 +11,7 @@ try {
   const trelloToken = core.getInput("trello-api-token");
   const baseUrl =
     "https://api.trello.com/1/cards?idList=64badf32182ac7d928d9304f";
-  const trelloAPIUrl =
-    "${baseUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}&key=${trelloKey}&token=${trelloToken}";
+  const trelloAPIUrl = `${baseUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}&key=${trelloKey}&token=${trelloToken}`;
   console.log(`Trello API URL: ${trelloAPIUrl}`);
   fetch(trelloAPIUrl, {
     method: "POST",
