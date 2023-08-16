@@ -23,8 +23,9 @@ try {
         if(response.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
-        else{
-          fetch(trelloAPICardUrl, {
+        else
+        {
+          fetch(trelloAPILabelUrl, {
             method: "POST",
             headers: {
               Accept: "application/json",
