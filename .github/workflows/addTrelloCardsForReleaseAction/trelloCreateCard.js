@@ -2,6 +2,8 @@ import fetch from "node-fetch";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 
+// this is to force a PR
+
 try {
   const milestoneLabel = core.getInput("milestone-label")
   let labelId = null;
