@@ -17,6 +17,9 @@ inputs:
   trello-api-token:
     description: "Trello API Token"
     required: true
+  milestone-label:
+    description: "Version milestone"
+    required: true
 
 runs:
   using: "node16"
