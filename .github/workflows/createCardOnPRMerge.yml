@@ -27,9 +27,9 @@ jobs:
       - name: Add Trello Card for PR
         uses: ./.github/workflows/addTrelloCardsForReleaseAction
         with:
+          milestone-label: ${{ github.event.pull_request.milestone.number }}
           name-of-card: ${{ github.event.pull_request.title }}
           description-of-card: ${{ github.event.pull_request.body }}
           pr-link: ${{ github.event.pull_request._links.html.href }}
           trello-api-key: ${{ secrets.TRELLO_API_KEY }}
           trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
-          milestone-label: ${{ github.event.pull_request.milestone }}
