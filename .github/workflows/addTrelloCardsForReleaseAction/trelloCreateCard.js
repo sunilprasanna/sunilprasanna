@@ -19,7 +19,7 @@ try {
     },
   })
       .then((response) => {
-        console.log(`Response: ${response}`);
+        console.log(`Response: ${JSON.stringify(response)}`);
         if(response.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
