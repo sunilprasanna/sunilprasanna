@@ -19,12 +19,13 @@ try {
     },
   })
       .then((response) => {
-        console.log(`Response: ${response}`);
+        console.log(`Response: ${JSON.stringify(response)}`);
         if(response.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
-        else{
-          fetch(trelloAPICardUrl, {
+        else
+        {
+          fetch(trelloAPILabelUrl, {
             method: "POST",
             headers: {
               Accept: "application/json",

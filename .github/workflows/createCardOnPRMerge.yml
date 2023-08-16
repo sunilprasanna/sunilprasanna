@@ -32,3 +32,4 @@ jobs:
           pr-link: ${{ github.event.pull_request._links.html.href }}
           trello-api-key: ${{ secrets.TRELLO_API_KEY }}
           trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
+          milestone-label: ${{ github.event.pull_request.milestone }}
