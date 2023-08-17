@@ -21,10 +21,8 @@ try {
     },
   })
       .then((response) => {
-          if(response.ok){
-              console.log("Response is ok")
-              return response.json();
-          }
+          console.log("Response is ok")
+          return response.json();
       })
       .then((data) => {
           console.log(data);
