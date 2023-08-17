@@ -21,28 +21,31 @@ try {
     },
   })
       .then((response) => {
-          console.log(JSON.stringify(response.body))
-        if(response.body.some(item => item.name === milestoneLabel)){
-          labelId = item.id
-        }
-        else
-        {
-          fetch(trelloAPILabelUrl, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-            },
-          })
-              .then((response) => {
-                console.log(`Response: ${response}`);
-                labelId = response.id;
-                return response.text();
-              })
-              .then((text) => console.log(text))
-              .catch((err) => console.error(err));
-        }
+          if(response.ok){
+              return response.json();
+          }
       })
-      .then((text) => console.log(text))
+      .then((data) => {
+          if(data.some(item => item.name === milestoneLabel)){
+              labelId = item.id
+          }
+          else
+          {
+              fetch(trelloAPILabelUrl, {
+                  method: "POST",
+                  headers: {
+                      Accept: "application/json",
+                  },
+              })
+                  .then((response) => {
+                      console.log(`Response: ${response}`);
+                      labelId = response.id;
+                      return response.text();
+                  })
+                  .then((text) => console.log(text))
+                  .catch((err) => console.error(err));
+          }
+      })
       .catch((err) => console.error(err));
   const newCardName = core.getInput("name-of-card");
   const cardDescription = core.getInput("description-of-card");
