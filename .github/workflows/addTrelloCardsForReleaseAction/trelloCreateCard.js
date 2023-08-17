@@ -22,10 +22,10 @@ try {
   })
       .then((response) => {
           console.log("Response is ok")
-          return response.json();
+          return response.body;
       })
       .then((data) => {
-          console.log(data);
+          console.log(JSON.stringify(data));
           if(data.some(item => item.name === milestoneLabel)){
               labelId = item.id
           }
