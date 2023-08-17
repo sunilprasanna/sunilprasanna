@@ -26,6 +26,7 @@ try {
           }
       })
       .then((data) => {
+          console.log(data);
           if(data.some(item => item.name === milestoneLabel)){
               labelId = item.id
           }
