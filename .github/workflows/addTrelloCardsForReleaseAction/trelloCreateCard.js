@@ -21,8 +21,7 @@ try {
     },
   })
       .then((response) => {
-        console.log("%j",response);
-        if(response.some(item => item.name === milestoneLabel)){
+        if(response.data.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
         else
