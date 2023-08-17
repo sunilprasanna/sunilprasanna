@@ -21,7 +21,8 @@ try {
     },
   })
       .then((response) => {
-        if(response.data.some(item => item.name === milestoneLabel)){
+          console.log(JSON.stringify(response.body))
+        if(response.body.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
         else
