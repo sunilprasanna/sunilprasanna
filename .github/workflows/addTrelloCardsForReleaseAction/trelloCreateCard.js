@@ -21,7 +21,7 @@ try {
     },
   })
       .then((response) => {
-        console.log(`Response: ${JSON.stringify(response)}`);
+        console.log("%j",response);
         if(response.some(item => item.name === milestoneLabel)){
           labelId = item.id
         }
@@ -63,10 +63,6 @@ try {
     })
     .then((text) => console.log(text))
     .catch((err) => console.error(err));
-
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2);
-  console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }
