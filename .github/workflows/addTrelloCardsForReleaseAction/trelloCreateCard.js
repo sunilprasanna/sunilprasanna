@@ -8,7 +8,7 @@ try {
   const milestoneLabel = core.getInput("milestone-label")
   let labelId = null;
   const baseUrl = "https://api.trello.com/1/"
-  const boardId = "64badf32182ac7d928d9304f"
+  const boardId = "64badf2c41a65ee0a368f7d1"
   const trelloKey = core.getInput("trello-api-key");
   const trelloToken = core.getInput("trello-api-token");
   const tokenQueryStrings = `&key=${trelloKey}&token=${trelloToken}`
