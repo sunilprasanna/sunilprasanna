@@ -9,6 +9,7 @@ try {
   let labelId = null;
   const baseUrl = "https://api.trello.com/1/"
   const boardId = "64badf2c41a65ee0a368f7d1"
+  const listId = "64badf32182ac7d928d9304f"
   const trelloKey = core.getInput("trello-api-key");
   const trelloToken = core.getInput("trello-api-token");
   const tokenQueryStrings = `&key=${trelloKey}&token=${trelloToken}`
@@ -22,10 +23,9 @@ try {
         },
     })
         .then((response) => {
-            return response.text();
+            return response.json();
         })
         .then((data) => {
-            console.log(JSON.stringify(data));
             if(data.some(item => item.name === milestoneLabel)){
                 labelId = item.id
             }
@@ -51,7 +51,7 @@ try {
   const cardDescription = core.getInput("description-of-card");
   const PRLink = core.getInput("pr-link");
   const baseCardUrl =
-      `${baseUrl}cards?idList=${boardId}`;
+      `${baseUrl}cards?idList=${listId}`;
   const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}`;
   console.log(`Trello API Card URL: ${trelloAPICardUrl}`);
   fetch(trelloAPICardUrl, {
