@@ -26,11 +26,13 @@ try {
             return response.json();
         })
         .then((data) => {
-            if(data.some(item => item.name === milestoneLabel)){
-                console.log(item.id);
-                labelId = item.id
-            }
-            else
+            data.forEach(item => {
+                if(item => item.name === milestoneLabel){
+                    labelId = item.name;
+                }
+            });
+
+            if(labelId === null)
             {
                 fetch(trelloAPILabelUrl, {
                     method: "POST",
