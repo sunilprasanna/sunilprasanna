@@ -14,6 +14,7 @@ try {
   const tokenQueryStrings = `&key=${trelloKey}&token=${trelloToken}`
   const trelloAPIBoardUrl = `${baseUrl}boards/${boardId}/labels?fields=id&fields=name${tokenQueryStrings}`
   const trelloAPILabelUrl = `${baseUrl}labels?name=${milestoneLabel}&color=blue&idBoard=${boardId}${tokenQueryStrings}`
+    console.log(`Trello API Board URL: ${trelloAPIBoardUrl}`);
     fetch(trelloAPIBoardUrl, {
         method: "GET",
         headers: {
@@ -52,7 +53,7 @@ try {
   const baseCardUrl =
       `${baseUrl}cards?idList=${boardId}`;
   const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}`;
-  console.log(`Trello API URL: ${trelloAPICardUrl}`);
+  console.log(`Trello API Card URL: ${trelloAPICardUrl}`);
   fetch(trelloAPICardUrl, {
     method: "POST",
     headers: {
