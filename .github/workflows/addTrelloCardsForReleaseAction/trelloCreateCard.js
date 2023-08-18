@@ -21,8 +21,8 @@ try {
         },
     })
         .then((response) => {
-            console.log("Response is ok")
-            return response.json();
+            console.log(`Response:${response.text()}`)
+            return response.text().then((text) => JSON.parse(text));
         })
         .then((data) => {
             console.log(JSON.stringify(data));
