@@ -27,8 +27,10 @@ try {
         })
         .then((data) => {
             data.forEach(item => {
+                console.log(item.name);
+                console.log(item.id);
                 if(item => item.name === milestoneLabel){
-                    labelId = item.name;
+                    labelId = item.id;
                 }
             });
 
