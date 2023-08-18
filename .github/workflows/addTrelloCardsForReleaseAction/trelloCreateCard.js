@@ -48,28 +48,29 @@ try {
                     })
                     .catch((err) => console.error(err));
             }
+
+            const newCardName = core.getInput("name-of-card");
+            const cardDescription = core.getInput("description-of-card");
+            const PRLink = core.getInput("pr-link");
+            const labelsArray = [labelId];
+            const baseCardUrl =
+                `${baseUrl}cards?idList=${listId}`;
+            const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}&idLabels=${labelId}`;
+            console.log(`Trello API Card URL: ${trelloAPICardUrl}`);
+            fetch(trelloAPICardUrl, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+                .then((response) => {
+                    console.log(`Response: ${response.status} ${response.statusText}`);
+                    return response.text();
+                })
+                .then((text) => console.log(text))
+                .catch((err) => console.error(err));
         })
         .catch((err) => console.error(err.message));
-  const newCardName = core.getInput("name-of-card");
-  const cardDescription = core.getInput("description-of-card");
-  const PRLink = core.getInput("pr-link");
-  const labelsArray = [labelId];
-  const baseCardUrl =
-      `${baseUrl}cards?idList=${listId}`;
-  const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}&idLabels=${labelId}`;
-  console.log(`Trello API Card URL: ${trelloAPICardUrl}`);
-  fetch(trelloAPICardUrl, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-  })
-    .then((response) => {
-      console.log(`Response: ${response.status} ${response.statusText}`);
-      return response.text();
-    })
-    .then((text) => console.log(text))
-    .catch((err) => console.error(err));
 } catch (error) {
   core.setFailed(error.message);
 }
