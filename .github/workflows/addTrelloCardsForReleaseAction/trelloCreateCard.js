@@ -48,9 +48,10 @@ try {
   const newCardName = core.getInput("name-of-card");
   const cardDescription = core.getInput("description-of-card");
   const PRLink = core.getInput("pr-link");
+  const labelsArray = [labelId];
   const baseCardUrl =
       `${baseUrl}cards?idList=${listId}`;
-  const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}`;
+  const trelloAPICardUrl = `${baseCardUrl}&name=${newCardName}&desc=${cardDescription}&urlSource=${PRLink}${tokenQueryStrings}&idLabels=${labelId}`;
   console.log(`Trello API Card URL: ${trelloAPICardUrl}`);
   fetch(trelloAPICardUrl, {
     method: "POST",
