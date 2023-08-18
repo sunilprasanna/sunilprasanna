@@ -26,9 +26,9 @@ try {
             return response.json();
         })
         .then((data) => {
+            console.log(milestoneLabel);
             data.forEach(item => {
                 console.log(item.name);
-                console.log(item.id);
                 if(item => item.name === milestoneLabel){
                     labelId = item.id;
                 }
