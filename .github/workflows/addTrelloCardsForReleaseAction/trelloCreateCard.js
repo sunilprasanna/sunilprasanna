@@ -21,7 +21,7 @@ try {
         },
     })
         .then((response) => {
-            return response.json();
+            return response.text();
         })
         .then((data) => {
             console.log(JSON.stringify(data));
