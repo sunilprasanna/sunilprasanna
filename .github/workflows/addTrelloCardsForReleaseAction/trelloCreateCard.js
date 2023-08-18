@@ -40,9 +40,7 @@ try {
                     .then((response) => {
                         console.log(`Response: ${response}`);
                         labelId = response.json().id;
-                        return response.text();
                     })
-                    .then((text) => console.log(text))
                     .catch((err) => console.error(err));
             }
         })
