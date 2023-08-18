@@ -14,39 +14,39 @@ try {
   const tokenQueryStrings = `&key=${trelloKey}&token=${trelloToken}`
   const trelloAPIBoardUrl = `${baseUrl}boards/${boardId}/labels?fields=id&fields=name${tokenQueryStrings}`
   const trelloAPILabelUrl = `${baseUrl}labels?name=${milestoneLabel}&color=blue&idBoard=${boardId}${tokenQueryStrings}`
-  fetch(trelloAPIBoardUrl, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  })
-      .then((response) => {
-          console.log("Response is ok")
-          return response.body;
-      })
-      .then((data) => {
-          console.log(JSON.stringify(data));
-          if(data.some(item => item.name === milestoneLabel)){
-              labelId = item.id
-          }
-          else
-          {
-              fetch(trelloAPILabelUrl, {
-                  method: "POST",
-                  headers: {
-                      Accept: "application/json",
-                  },
-              })
-                  .then((response) => {
-                      console.log(`Response: ${response}`);
-                      labelId = response.id;
-                      return response.text();
-                  })
-                  .then((text) => console.log(text))
-                  .catch((err) => console.error(err));
-          }
-      })
-      .catch((err) => console.error(err));
+    fetch(trelloAPIBoardUrl, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+        },
+    })
+        .then((response) => {
+            console.log("Response is ok")
+            return response.json();
+        })
+        .then((data) => {
+            console.log(JSON.stringify(data));
+            if(data.some(item => item.name === milestoneLabel)){
+                labelId = item.id
+            }
+            else
+            {
+                fetch(trelloAPILabelUrl, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                })
+                    .then((response) => {
+                        console.log(`Response: ${response}`);
+                        labelId = response.json().id;
+                        return response.text();
+                    })
+                    .then((text) => console.log(text))
+                    .catch((err) => console.error(err));
+            }
+        })
+        .catch((err) => console.error(err.message));
   const newCardName = core.getInput("name-of-card");
   const cardDescription = core.getInput("description-of-card");
   const PRLink = core.getInput("pr-link");
