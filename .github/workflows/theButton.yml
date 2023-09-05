@@ -16,11 +16,10 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Extract version from package.json
+      - name: Extract version from version.txt
         id: extract_version
         run: |
-          npm --no-git-tag-version version minor
-          echo "version=$(node -p 'require("./package.json").version')" >> $GITHUB_ENV
+          echo "export version=$(cat version.txt)" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: actions/github-script@v4

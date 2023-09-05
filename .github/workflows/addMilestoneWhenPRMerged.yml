@@ -1,0 +1,76 @@
+name: Assign Milestone and Create Trello Card on PR Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  assign_milestone:
+    if: github.event.pull_request.merged == true && github.event.pull_request.milestone != null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Extract version from package.json
+        id: extract_version
+        run: |
+          echo "export version=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Assign milestone
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const milestones = await github.issues.listMilestones({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            const version = process.env.version;
+            const milestoneTitle = `${version} Release`;
+            let milestone = milestones.data.find(m => m.title === milestoneTitle);
+            if (!milestone) {
+              milestone = await github.issues.createMilestone({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: milestoneTitle
+              });
+            }
+
+            await github.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              milestone: milestone.number
+            });
+
+  create-card:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'development'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: npm install --force
+
+      - name: Add Trello Card for PR
+        uses: ./.github/workflows/addTrelloCardsForReleaseAction
+        with:
+          milestone-label: ${{ github.event.pull_request.milestone.title }}
+          name-of-card: ${{ github.event.pull_request.title }}
+          description-of-card: ${{ github.event.pull_request.body }}
+          pr-link: ${{ github.event.pull_request._links.html.href }}
+          trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+          trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
