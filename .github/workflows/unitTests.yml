@@ -13,18 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '4.x' # Change to your desired .NET version
+      - name: Build with .NET Framework 4.7
+        run: >
+          "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
+          /p:Configuration=Release
+          /p:Platform="Any CPU"
+          FrameworkUnitTests.sln
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build -c Release
-
-      - name: Run Unit Tests
-        run: |
-             cd FrameworkUnitTests 
-             dotnet test --configuration Release --filter TestCategory!=SkipOnCI
+      - name: Run tests
+        run: >
+          "C:\Windows\Microsoft.NET\Framework\v4.0.30319\VSTest.console.exe"
+          FrameworkUnitTests.FrameworkUnitTests.dll
