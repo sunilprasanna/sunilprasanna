@@ -16,8 +16,8 @@ jobs:
       - name: Build with .NET Framework 4.7
         run: |
           "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
-          /p:Configuration=Release
-          /p:Platform="Any CPU"
+          Configuration=Release
+          Platform="Any CPU"
           FrameworkUnitTests.sln
 
       - name: Run tests
