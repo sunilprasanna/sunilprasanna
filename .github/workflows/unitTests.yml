@@ -18,5 +18,7 @@ jobs:
 
 
       - name: Run tests
-        run: C:\Windows\Microsoft.NET\Framework\v4.0.30319\VSTest.console.exe FrameworkUnitTests\FrameworkUnitTests.FrameworkUnitTests.dll
+        run: | 
+          cd FrameworkUnitTests
+          C:\Windows\Microsoft.NET\Framework\v4.0.30319\VSTest.console.exe FrameworkUnitTests\FrameworkUnitTests.FrameworkUnitTests.dll
 
