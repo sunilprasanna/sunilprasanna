@@ -19,5 +19,6 @@ jobs:
           dotnet-version: '3.1' # Change to your desired .NET version
 
       - name: Run Unit Tests
-        run: cd FrameworkUnitTests 
+        run: |
+             cd FrameworkUnitTests 
              dotnet test --configuration Release --filter TestCategory!=SkipOnCI
