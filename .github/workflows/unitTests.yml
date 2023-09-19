@@ -18,7 +18,9 @@ jobs:
 
 
       - name: Run tests
-        run: | 
-          cd FrameworkUnitTests
-          C:\Windows\Microsoft.NET\Framework\v4.0.30319\VSTest.console.exe FrameworkUnitTests\FrameworkUnitTests.FrameworkUnitTests.dll
+        uses: microsoft/vstest-action@v1.0.0
+        with:
+          testAssembly: FrameworkUnitTests.dll
+          searchFolder: .\FrameworkUnitTests\FrameworkUnitTests\bin\Debug\
+          runInParallel: true
 
