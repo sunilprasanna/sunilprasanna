@@ -27,7 +27,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const version = process.env.version;
+            const version = env.version;
             const release = await github.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
