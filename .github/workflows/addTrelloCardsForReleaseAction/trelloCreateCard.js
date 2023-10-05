@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 
-// this is to force a PR again
+// this is to force a PR again also
 
 try {
   const milestoneLabel = core.getInput("milestone-label")
