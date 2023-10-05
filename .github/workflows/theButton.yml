@@ -21,14 +21,14 @@ jobs:
         run: |
           VER=$(cat version.txt)
           echo "VERSION=$VER" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: actions/github-script@v4
         with:
-          context: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const version = env.version;
+            const version = ${{ env.VERSION }}
             const release = await github.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
