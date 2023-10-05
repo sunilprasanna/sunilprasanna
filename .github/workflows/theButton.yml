@@ -25,6 +25,7 @@ jobs:
         id: create_release
         uses: actions/github-script@v4
         with:
+          context: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const version = env.version;
