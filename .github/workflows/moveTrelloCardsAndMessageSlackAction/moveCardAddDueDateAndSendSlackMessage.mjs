@@ -21,6 +21,7 @@ async function getCards(listId) {
     const url = `https://api.trello.com/1/lists/${listId}/cards?key=${trelloKey}&token=${trelloToken}`;
     const response = await fetch(url);
     if (response.ok) {
+        console.log("Got cards")
         return await response.json();
     } else {
         throw new Error(`Failed to fetch cards: ${await response.text()}`);
