@@ -55,8 +55,9 @@ async function moveAllCards() {
                 method: 'GET'
             });
             if (response.ok) {
-                console.log(`Card ${card.idMembers[0]} information received.`);
-                trelloMembers.push(response.json().username);
+                console.log(`Member ${card.idMembers[0]} information received.`);
+                const member = await response.json();
+                trelloMembers.push(member.username);
             } else {
                 console.error(`Error getting member card ${cardId}: ${await response.text()}`);
             }
