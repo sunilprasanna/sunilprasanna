@@ -55,7 +55,6 @@ async function moveAllCards() {
                 method: 'GET'
             });
             if (response.ok) {
-                console.log(`Member ${card.idMembers[0]} information received.`);
                 const member = await response.json();
                 trelloMembers.push(member.username);
             } else {
@@ -104,11 +103,12 @@ function getValuesFromKeys(object, keysArray) {
 }
 
 async function notifyOnSlack(assignedUsers) {
-    const message = 'The release has been cut, the following engineers please complete your testing!'; // Modify with actual message content
+    let message = 'The release has been cut, the following engineers please complete your testing!'; // Modify with actual message content
     // Here you would format the message to include the tags for the assigned users
     const slackIds = getValuesFromKeys(assignedUsers, trelloMembers);
     console.log(slackIds);
-    slackIds.forEach(id => message.concat(`<!@${id}>,`))
+    slackIds.forEach(id => message += `<!@${id}>,`)
+    console.log(message)
     const response = await fetch(SLACK_WEBHOOK_URL, {
         method: 'POST',
         body: JSON.stringify({ text: message }),
