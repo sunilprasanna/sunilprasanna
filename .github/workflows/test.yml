@@ -9,6 +9,17 @@ jobs:
       runs-on: ubuntu-latest
       timeout-minutes: 8
       steps:
+        - name: Check out repository code
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+            ref: development
+
+        - name: Use Node.js 14.x
+          uses: actions/setup-node@v3
+          with:
+            node-version: 14.x
+
         - name: Move Trello Cards and Message Slack
           uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
           with:
