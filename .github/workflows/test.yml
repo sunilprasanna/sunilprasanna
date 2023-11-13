@@ -15,10 +15,13 @@ jobs:
             fetch-depth: 0
             ref: development
 
-        - name: Use Node.js 14.x
+        - name: Use Node.js 16.x
           uses: actions/setup-node@v3
           with:
-            node-version: 14.x
+            node-version: 16.x
+        - run: |
+            yarn add node-fetch
+            yarn add @actions/core
 
         - name: Move Trello Cards and Message Slack
           uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
