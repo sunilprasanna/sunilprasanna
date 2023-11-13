@@ -87,6 +87,8 @@ async function getAssignedUsers() {
 }
 
 function getValuesFromKeys(object, keysArray) {
+    console.log(object)
+    console.log(keysArray)
     return keysArray.map(key => object[key]).filter(value => value !== undefined);
 }
 
