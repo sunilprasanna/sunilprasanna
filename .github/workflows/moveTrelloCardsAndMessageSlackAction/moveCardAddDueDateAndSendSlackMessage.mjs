@@ -30,7 +30,7 @@ async function getCards(listId) {
 
 // Function to move a card to another list and set the due date
 async function moveCard(cardId, destinationListId) {
-    const url = `https://api.trello.com/1/cards/${cardId}?key=${trelloKey}&token=${trelloKey}`;
+    const url = `https://api.trello.com/1/cards/${cardId}?key=${trelloKey}&token=${trelloToken}`;
     const data = new URLSearchParams({
         idList: destinationListId
     });
