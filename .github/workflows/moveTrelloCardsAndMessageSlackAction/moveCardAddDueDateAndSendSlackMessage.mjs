@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-const { google } = require('googleapis');
+import { google } from 'googleapis';
 import * as core from "@actions/core";
 
 // Trello information
@@ -21,6 +21,7 @@ async function getCards(listId) {
     const url = `https://api.trello.com/1/lists/${listId}/cards?key=${trelloKey}&token=${trelloToken}`;
     const response = await fetch(url);
     if (response.ok) {
+        console.log("Got cards")
         return await response.json();
     } else {
         throw new Error(`Failed to fetch cards: ${await response.text()}`);
@@ -29,7 +30,7 @@ async function getCards(listId) {
 
 // Function to move a card to another list and set the due date
 async function moveCard(cardId, destinationListId) {
-    const url = `https://api.trello.com/1/cards/${cardId}?key=${trelloKey}&token=${trelloKey}`;
+    const url = `https://api.trello.com/1/cards/${cardId}?key=${trelloKey}&token=${trelloToken}`;
     const data = new URLSearchParams({
         idList: destinationListId
     });
@@ -49,7 +50,17 @@ async function moveAllCards() {
     try {
         const cards = await getCards(originalListId);
         for (const card of cards) {
-            trelloMembers.push(card.idMembers);
+            const url = `https://api.trello.com/1/members/${card.idMembers[0]}?key=${trelloKey}&token=${trelloToken}`;
+            const response = await fetch(url, {
+                method: 'GET'
+            });
+            if (response.ok) {
+                const member = await response.json();
+                trelloMembers.push(member.username);
+            } else {
+                console.error(`Error getting member card ${cardId}: ${await response.text()}`);
+            }
+
             await moveCard(card.id, destinationListId);
         }
     } catch (error) {
@@ -86,14 +97,18 @@ async function getAssignedUsers() {
 }
 
 function getValuesFromKeys(object, keysArray) {
+    console.log(object)
+    console.log(keysArray)
     return keysArray.map(key => object[key]).filter(value => value !== undefined);
 }
 
 async function notifyOnSlack(assignedUsers) {
-    const message = 'The release has been cut, the following engineers please complete your testing!'; // Modify with actual message content
+    let message = 'The release has been cut, the following engineers please complete your testing!'; // Modify with actual message content
     // Here you would format the message to include the tags for the assigned users
     const slackIds = getValuesFromKeys(assignedUsers, trelloMembers);
-    slackIds.forEach(id => message.concat(`<!@${id}>,`))
+    console.log(slackIds);
+    slackIds.forEach(id => message += ` <@${id}>,`)
+    console.log(message)
     const response = await fetch(SLACK_WEBHOOK_URL, {
         method: 'POST',
         body: JSON.stringify({ text: message }),

@@ -1,0 +1,32 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  move-trello-cards:
+      name: "[chore] Merge pull request from development to release"
+      runs-on: ubuntu-latest
+      timeout-minutes: 8
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+            ref: master
+
+        - name: Use Node.js 16.x
+          uses: actions/setup-node@v3
+          with:
+            node-version: 16.x
+        - run: |
+            yarn add node-fetch
+            yarn add @actions/core
+            yarn add googleapis
+
+        - name: Move Trello Cards and Message Slack
+          uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
+          with:
+            trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+            trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
+            slack-webhook: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
