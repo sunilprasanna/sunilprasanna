@@ -1,0 +1,17 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  move-trello-cards:
+      name: "[chore] Merge pull request from development to release"
+      runs-on: ubuntu-latest
+      timeout-minutes: 8
+      steps:
+        - name: Move Trello Cards and Message Slack
+          uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
+          with:
+            trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+            trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
+            slack-webhook: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
