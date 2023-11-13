@@ -94,6 +94,7 @@ async function notifyOnSlack(assignedUsers) {
     const message = 'The release has been cut, the following engineers please complete your testing!'; // Modify with actual message content
     // Here you would format the message to include the tags for the assigned users
     const slackIds = getValuesFromKeys(assignedUsers, trelloMembers);
+    console.log(slackIds);
     slackIds.forEach(id => message.concat(`<!@${id}>,`))
     const response = await fetch(SLACK_WEBHOOK_URL, {
         method: 'POST',
