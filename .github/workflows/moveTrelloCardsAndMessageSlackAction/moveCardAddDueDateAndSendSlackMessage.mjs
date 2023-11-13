@@ -50,7 +50,17 @@ async function moveAllCards() {
     try {
         const cards = await getCards(originalListId);
         for (const card of cards) {
-            trelloMembers.push(card.idMembers);
+            const url = `https://api.trello.com/1/members/${card.idMembers[0]}?key=${trelloKey}&token=${trelloToken}`;
+            const response = await fetch(url, {
+                method: 'GET'
+            });
+            if (response.ok) {
+                console.log(`Card ${card.idMembers[0]} information received.`);
+                trelloMembers.push(response.json().username);
+            } else {
+                console.error(`Error getting member card ${cardId}: ${await response.text()}`);
+            }
+
             await moveCard(card.id, destinationListId);
         }
     } catch (error) {
