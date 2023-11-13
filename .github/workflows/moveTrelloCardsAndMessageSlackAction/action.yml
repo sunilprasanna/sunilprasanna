@@ -1,0 +1,20 @@
+name: "Move Trello Cards for Release"
+description: "Moves the trello cards, adds a due date and sends a slack message about the release"
+
+inputs:
+  due-date:
+    description: "Due date for the Trello card"
+    required: true
+  trello-api-key:
+    description: "Trello API Key"
+    required: true
+  trello-api-token:
+    description: "Trello API Token"
+    required: true
+  slack-webhook:
+    description: "Webhook to message slack with"
+    required: true
+
+runs:
+  using: "node16"
+  main: "moveCardAddDueDateAndSendSlackMessage.mjs"

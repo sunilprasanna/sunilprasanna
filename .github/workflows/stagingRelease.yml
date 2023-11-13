@@ -1,10 +1,8 @@
 name: Update Version on Release
 
 on:
-  release:
-    types:
-      - prereleased
-
+  workflow_dispatch:
+    
 permissions: write-all
 
 jobs:
@@ -47,6 +45,13 @@ jobs:
           gh pr create -H development -B release -t "${{github.event.release.name}}" -b "$${{github.event.release.name}} merge to release"
           num=$(gh api repos/:owner/:repo/pulls -q ".[] | select(.head.ref  == \"development\") | select(.base.ref == \"release\") | .number")
           gh pr merge ${num} --merge --admin
+
+      - name: Move Trello Cards and Message Slack
+        uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
+        with:
+          trello-api-key: ${{ secrets.TRELLO_API_KEY }}
+          trello-api-token: ${{ secrets.TRELLO_API_TOKEN }}
+          slack-webhook: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
 
       - name: Slack Staging Notification
         uses: bryannice/gitactions-slack-notification@2.0.0
