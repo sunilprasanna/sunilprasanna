@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-const { google } = require('googleapis');
+import google from "googleapis";
 import * as core from "@actions/core";
 
 // Trello information

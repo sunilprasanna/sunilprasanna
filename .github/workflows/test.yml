@@ -22,6 +22,7 @@ jobs:
         - run: |
             yarn add node-fetch
             yarn add @actions/core
+            yarn add googleapis
 
         - name: Move Trello Cards and Message Slack
           uses: ./.github/workflows/moveTrelloCardsAndMessageSlackAction
